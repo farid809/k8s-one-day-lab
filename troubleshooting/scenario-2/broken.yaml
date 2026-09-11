@@ -24,6 +24,8 @@ spec:
           env:
             - name: DB_HOST
               value: database
+            - name: DB_PORT
+              value: "5432"
             - name: DB_NAME
               value: taskboard
             - name: DB_USER

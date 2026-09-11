@@ -30,6 +30,12 @@ spec:
           env:
             - name: DB_HOST
               value: db                    # the Service name — cluster DNS resolves it
+            # Real-world gotcha: for every Service, Kubernetes auto-injects
+            # legacy Docker-link vars into pods — a Service named "db" injects
+            # DB_PORT=tcp://<cluster-ip>:5432, colliding with our variable.
+            # Setting it explicitly wins. (Alternative: enableServiceLinks: false)
+            - name: DB_PORT
+              value: "5432"
             - name: DB_NAME
               value: taskboard
             - name: DB_USER
