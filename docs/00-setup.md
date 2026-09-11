@@ -27,7 +27,7 @@ minikube stop           # we'll start it again in Exercise 2
 ## Get the lab
 
 ```bash
-git clone <REPO_URL> k8s-one-day-lab
+git clone https://github.com/farid809/k8s-one-day-lab.git k8s-one-day-lab
 cd k8s-one-day-lab
 ```
 
