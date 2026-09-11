@@ -1,7 +1,7 @@
 # 3 · Exercise 2 — The Kubernetes way (~2.5 h)
 
 **Goal:** run the exact same app on Kubernetes — same images, same nginx.conf,
-same env vars — and watch every Exercise 1 pain get absorbed by the platform.
+same env vars — and see how the platform addresses each Exercise 1 limitation.
 
 ## 3.1 The idea in one paragraph
 
@@ -13,9 +13,9 @@ the file — restarting, rescheduling, rewiring as needed. Your shell history
 from Exercise 1 becomes files in `k8s/`, which is why they can live in git,
 be reviewed, and be re-applied as the undo button.
 
-Every pain now gets a named answer:
+Each limitation maps to a named Kubernetes answer:
 
-| ⚡ Exercise 1 pain | Kubernetes answer | Object |
+| Exercise 1 limitation | Kubernetes answer | Object |
 |---|---|---|
 | #1 startup order, no retries | pods restart until they succeed; readiness gates traffic | restartPolicy, probes |
 | #2 wiring in shell history | desired state as YAML, in git | manifests |
@@ -82,7 +82,7 @@ kubectl apply -f k8s/03-postgres-deployment.yaml
 kubectl apply -f k8s/04-postgres-service.yaml
 
 kubectl get pods -n taskboard          # postgres Running, 1/1 Ready
-kubectl get pvc  -n taskboard          # postgres-data Bound — pain #5, answered
+kubectl get pvc  -n taskboard          # postgres-data Bound — limitation #5, answered
 ```
 
 Now the API — and a deliberate moment. Apply it and *immediately* watch:
@@ -94,7 +94,7 @@ kubectl get pods -n taskboard -w       # Ctrl-C when stable
 
 If postgres wasn't ready yet, you just saw an api pod crash and enter
 `CrashLoopBackOff` — the exact Exercise 1 startup-order failure — and then
-**fix itself** when the DB came up. Nobody ordered anything. That's pain #1
+**fix itself** when the DB came up. Nobody ordered anything. That's limitation #1
 dying: same crash, different world.
 
 ```bash
@@ -112,7 +112,7 @@ create, no ordering, no port juggling, no passwords on the command line.
 
 ## 3.4 Collect the payoffs
 
-**Self-healing** (pain #3). Kill the API like it's 2am again:
+**Self-healing** (limitation #3). Kill the API like it's 2am again:
 
 ```bash
 kubectl get pods -n taskboard
@@ -123,7 +123,7 @@ kubectl get pods -n taskboard          # a replacement is ALREADY there
 The UI never went down — the Service routed around the dying pod to the other
 replica. Compare: in Exercise 1 this was you, awake, running `docker start`.
 
-**Scaling** (pain #4). The thing that needed config surgery:
+**Scaling** (limitation #4). The thing that needed config surgery:
 
 ```bash
 kubectl scale deployment api -n taskboard --replicas=5
@@ -134,7 +134,7 @@ Refresh the UI and watch **"served by"** hop across five hostnames. Nobody
 touched nginx.conf. Scale back down: `--replicas=2` — connections drain, pods
 go. One number, up and down.
 
-**Storage** (pain #5). Delete the *database pod*:
+**Storage** (limitation #5). Delete the *database pod*:
 
 ```bash
 kubectl delete pod -n taskboard -l app=postgres

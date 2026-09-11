@@ -62,6 +62,6 @@ data:
     );
     INSERT INTO tasks (title, done) VALUES
         ('Finish Exercise 1 — containers by hand', true),
-        ('Feel the pain', true),
+        ('Review the app architecture', true),
         ('Finish Exercise 2 — the Kubernetes way', false),
         ('Break things on purpose in Exercise 3', false);

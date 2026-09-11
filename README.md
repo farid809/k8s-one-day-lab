@@ -36,7 +36,7 @@ app/              the Task Board — gateway (nginx), api (FastAPI), db (seed SQ
 k8s/              Kubernetes manifests, numbered in teaching order, commented
 troubleshooting/  five broken.yaml + SOLUTION.md pairs for Exercise 3
 docs/             the lab itself — read these in order
-docs/diagrams/    draw.io sources (architecture, pains→answers, object map)
+docs/diagrams/    draw.io sources (architecture, limitations→answers, object map)
 ```
 
 ## For instructors
@@ -44,8 +44,8 @@ docs/diagrams/    draw.io sources (architecture, pains→answers, object map)
 - Exercises are self-paced; the docs are written to be followed without a
   presenter. Budget floating help for Exercise 1 §2.2 (the deliberate crash)
   and Exercise 3 scenario 3 (the sneaky one).
-- The ⚡ **pain** markers in Exercise 1 and the pain→answer table opening
-  Exercise 2 are the narrative spine — keep referring back to them.
+- The **limitation** markers in Exercise 1 and the limitation→answer table
+  opening Exercise 2 are the narrative spine — keep referring back to them.
 - Diagrams are draw.io files (open with the draw.io desktop app or
   [app.diagrams.net](https://app.diagrams.net)); the docs embed mermaid
   equivalents that render directly on GitHub/Bitbucket.

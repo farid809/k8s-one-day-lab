@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS tasks (
 
 INSERT INTO tasks (title, done) VALUES
     ('Finish Exercise 1 — containers by hand', false),
-    ('Feel the pain', false),
+    ('Review the app architecture', false),
     ('Finish Exercise 2 — the Kubernetes way', false),
     ('Break things on purpose in Exercise 3', false);

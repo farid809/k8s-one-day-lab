@@ -64,8 +64,8 @@ Do them in order — 3 and 5 build on the instincts from 1 and 2.
 
 Three questions to close the day:
 
-1. Which Exercise 1 pain did you personally find worst — and which Kubernetes
-   object answered it?
+1. Which Exercise 1 limitation stood out most to you — and which Kubernetes
+   object addressed it?
 2. In scenario 3, every single pod was green and the app was still down.
    What's the general lesson about "is it healthy?" vs "is it wired?"
 3. Your real projects: which service would you containerize first, and what

@@ -1,10 +1,11 @@
 # 2 · Exercise 1 — Containers by hand (~2 h)
 
-**Goal:** run the whole app with nothing but `docker` commands — and feel
-exactly where that stops scaling. Every pain you hit here is a Kubernetes
-feature waiting in Exercise 2. When you hit one, it's marked like this:
+**Goal:** run the whole app with nothing but `docker` commands, and note
+exactly where that approach stops scaling. Each limitation you encounter here
+corresponds to a Kubernetes feature covered in Exercise 2. They are marked
+like this:
 
-> ⚡ **Pain #n — name.** What just happened, and why it doesn't scale.
+> **Limitation #n — name.** What just happened, and why it doesn't scale.
 
 Work from the repo root. If Docker Desktop isn't running, start it.
 
@@ -34,7 +35,7 @@ docker ps -a       # Exited (1)
 docker logs api    # psycopg2.OperationalError: could not translate host name "db"
 ```
 
-> ⚡ **Pain #1 — startup order is your problem.** The API needs the DB first,
+> **Limitation #1 — startup order is your problem.** The API needs the DB first,
 > and *you* have to know that and sequence it. Nothing restarts the failed
 > container or retries later. In a 3-component app you can keep the order in
 > your head. In a 30-component system, you can't.
@@ -78,12 +79,12 @@ docker run -d --name gateway --network taskboard-net -p 8080:80 taskboard-gatewa
 Open **http://localhost:8080** — the Task Board is up, seeded with tasks. Add
 one. It works! Congratulations, you are now a human orchestrator.
 
-> ⚡ **Pain #2 — the wiring lives in your shell history.** Count what you just
+> **Limitation #2 — the wiring lives in your shell history.** Count what you just
 > typed: 1 network, 1 volume, 3 runs, ~10 `-e`/`-v`/`-p` flags, a password in
 > plain text, in the right order. None of it is written down anywhere except
 > your terminal. The next person gets it by asking you.
 
-## 2.4 Poke at the pain
+## 2.4 Test the limitations
 
 **Kill the API** (pretend it crashed at 2am):
 
@@ -98,7 +99,7 @@ to help.
 docker start api    # you are the healing mechanism
 ```
 
-> ⚡ **Pain #3 — nothing restarts anything.** `docker run --restart=always`
+> **Limitation #3 — nothing restarts anything.** `docker run --restart=always`
 > exists, but it's per-container, set at run time, and there's still no notion
 > of "the app" as a whole — no health checks, no "don't send traffic until
 > it's actually ready".
@@ -117,7 +118,7 @@ To actually load-balance you'd edit `nginx.conf`, add an upstream block with
 both names, rebuild the gateway image, and restart it. And repeat all that
 when you add `api-3` or remove `api-2`.
 
-> ⚡ **Pain #4 — scaling is a config-surgery project.** Adding a copy of a
+> **Limitation #4 — scaling is a config-surgery project.** Adding a copy of a
 > stateless service should be trivial. Here it means editing another
 > component's config and rebuilding an image.
 
@@ -137,11 +138,11 @@ Now the counterfactual — remove the `-v taskboard-data:...` flag and recreate
 `db` again: fresh seeds, your added tasks gone. (Recreate it *with* the volume
 before moving on.)
 
-> ⚡ **Pain #5 — state is one forgotten flag from gone.** The difference
+> **Limitation #5 — state is one forgotten flag from gone.** The difference
 > between "data survives" and "data doesn't" was one `-v` in a command
 > you typed by hand.
 
-## 2.5 What you should be feeling
+## 2.5 Summary: what manual orchestration costs
 
 For **one** small app on **one** machine you personally manage: build order,
 startup order, a network, a volume, port mappings, plaintext secrets, restarts,
