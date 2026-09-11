@@ -1,4 +1,4 @@
-# 4 · Exercise 3 — Troubleshooting (~1.5 h)
+# 4 · Exercise 3 — Troubleshooting (~1.25 h)
 
 **Goal:** learn the diagnosis loop by fixing five real failures. Each scenario
 in `troubleshooting/` breaks your running app in a different way; your job is
@@ -60,26 +60,7 @@ git; recovery is re-applying truth, not patching the cluster by hand.
 
 Do them in order — 3 and 5 build on the instincts from 1 and 2.
 
-## Wrap-up (whole group, ~15 min)
+Leave the cluster running — the final exercise redeploys this app in one
+command.
 
-Three questions to close the day:
-
-1. Which Exercise 1 limitation stood out most to you — and which Kubernetes
-   object addressed it?
-2. In scenario 3, every single pod was green and the app was still down.
-   What's the general lesson about "is it healthy?" vs "is it wired?"
-3. Your real projects: which service would you containerize first, and what
-   would its `k8s/` directory contain?
-
-## Clean up
-
-```bash
-kubectl delete namespace taskboard   # the whole app, gone in one line
-minikube stop                        # or: minikube delete (removes the VM too)
-```
-
-## Where to go next
-
-- [Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/) — official interactive tutorial; good repetition of today
-- [Killercoda scenarios](https://killercoda.com/kubernetes) — free browser playgrounds for more reps
-- Ingress, Helm, StatefulSets, RBAC — the four topics we deliberately skipped, in the order worth learning them
+Next → [5 · Exercise 4: Helm](05-exercise-4-helm.md)

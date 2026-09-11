@@ -1,4 +1,4 @@
-# 2 · Exercise 1 — Containers by hand (~2 h)
+# 2 · Exercise 1 — Containers by hand (~3 h)
 
 **Goal:** run the whole app with nothing but `docker` commands, and note
 exactly where that approach stops scaling. Each limitation you encounter here
@@ -142,12 +142,73 @@ before moving on.)
 > between "data survives" and "data doesn't" was one `-v` in a command
 > you typed by hand.
 
+**Ship an update** (a routine release):
+
+Edit `app/gateway/static/index.html` — change the `<h1>` from `Task Board`
+to `Task Board v2`. Now get that change to "production":
+
+```bash
+docker build -t taskboard-gateway:v2 app/gateway
+docker rm -f gateway            # the app's front door is now DOWN
+docker run -d --name gateway --network taskboard-net -p 8080:80 taskboard-gateway:v2
+```
+
+Keep refreshing the browser while you do it: between the `rm` and the new
+container becoming ready, every user gets a connection error. To avoid that
+window you'd need a second gateway, a load balancer in front, health checks,
+and a scripted cutover — for a one-line HTML change.
+
+If the release is bad, rolling back is the same manual sequence in reverse,
+under pressure.
+
+> **Limitation #6 — every update means downtime.** Replacing a container is
+> stop-then-start. Zero-downtime deploys and instant rollbacks are an
+> infrastructure project you'd have to build yourself.
+
+**Stand up a second environment** (QA asks for a staging copy):
+
+Everything you built is named and wired by hand — so a second copy means
+doing all of it again with different names and ports, carefully:
+
+```bash
+docker network create taskboard-net-stg
+docker volume create taskboard-data-stg
+docker run -d --name db-stg --network taskboard-net-stg \
+  -e POSTGRES_USER=taskboard -e POSTGRES_PASSWORD=lab-only-password -e POSTGRES_DB=taskboard \
+  -v taskboard-data-stg:/var/lib/postgresql/data \
+  -v "$(pwd)/app/db/init.sql":/docker-entrypoint-initdb.d/init.sql:ro \
+  postgres:16-alpine
+docker run -d --name api-stg --network taskboard-net-stg \
+  -e DB_HOST=db-stg -e DB_USER=taskboard -e DB_PASSWORD=lab-only-password \
+  taskboard-api:v1
+```
+
+Stop here — the gateway can't even join without a config edit: its nginx.conf
+proxies to `api`, but this network's container is `api-stg`. So a staging
+environment needs a *different gateway image* (or a rebuilt config), plus a
+different published port, plus this whole command sequence — and drift between
+the two copies starts the moment you create them.
+
+Tear the half-built staging copy down:
+
+```bash
+docker rm -f db-stg api-stg
+docker network rm taskboard-net-stg
+docker volume rm taskboard-data-stg
+```
+
+> **Limitation #7 — a second environment means doing everything again.**
+> There is no "copy of the whole app" concept — only individual containers
+> you recreate by hand, with names and configs adjusted everywhere they're
+> referenced.
+
 ## 2.5 Summary: what manual orchestration costs
 
 For **one** small app on **one** machine you personally manage: build order,
 startup order, a network, a volume, port mappings, plaintext secrets, restarts,
-and a scaling approach that requires image rebuilds. Multiply by 30 services,
-3 environments, and a 2am pager.
+a scaling approach that requires image rebuilds, downtime on every release,
+and a full manual rebuild for each additional environment. Multiply by 30
+services, 3 environments, and a 2am pager.
 
 The fix isn't more discipline. It's declaring the desired state and letting
 software converge on it. That's Exercise 2.
@@ -158,6 +219,7 @@ software converge on it. That's Exercise 2.
 docker rm -f gateway api db
 docker network rm taskboard-net
 docker volume rm taskboard-data
+git checkout -- app/gateway/static/index.html   # undo the v2 heading edit
 ```
 
 Next → [3 · Exercise 2: the Kubernetes way](03-exercise-2-kubernetes.md)

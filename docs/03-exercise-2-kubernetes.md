@@ -1,4 +1,8 @@
-# 3 · Exercise 2 — The Kubernetes way (~2.5 h)
+# 3 · Exercise 2 — The Kubernetes way (~2 h)
+
+Notice the clock: everything Exercise 1 did in three hours, plus healing,
+scaling, zero-downtime restarts, and reviewable config, fits in two — because
+the platform does the orchestration work.
 
 **Goal:** run the exact same app on Kubernetes — same images, same nginx.conf,
 same env vars — and see how the platform addresses each Exercise 1 limitation.
@@ -22,6 +26,8 @@ Each limitation maps to a named Kubernetes answer:
 | #3 nothing restarts anything | self-healing to the declared replica count | **Deployment** |
 | #4 scaling = config surgery | `--replicas=3`; traffic spreads automatically | **Service** |
 | #5 state one flag from gone | storage as a declared, named claim | **PVC** |
+| #6 every update means downtime | rolling updates: new pods start before old ones stop | **Deployment** |
+| #7 second environment = rebuild everything | same manifests, applied to another namespace | **Namespace** |
 | (passwords in plain sight) | referenced by name, never inline | **Secret**, **ConfigMap** |
 
 The vocabulary you need today — five words:
@@ -143,6 +149,20 @@ kubectl get pods -n taskboard -w       # replacement comes up, Ctrl-C
 
 Refresh: your tasks survived. The pod died; the PVC didn't. And there was no
 `-v` flag to forget — the claim is part of the declared state.
+
+**Zero-downtime restarts** (limitation #6). In Exercise 1, replacing the
+gateway meant a visible outage. Watch what a rolling restart does instead —
+keep refreshing the browser while it runs:
+
+```bash
+kubectl rollout restart deployment api -n taskboard
+kubectl get pods -n taskboard -w      # new pods appear BEFORE old ones terminate
+```
+
+The UI never breaks: the Deployment starts replacements, waits for their
+readiness probes, then retires the old pods. `kubectl rollout undo` is the
+one-command rollback. (A real image upgrade — `kubectl set image` — follows
+the exact same choreography.)
 
 **Config without rebuilds** (ConfigMap payoff). In Exercise 1, changing nginx
 routing meant rebuild + restart. Now:

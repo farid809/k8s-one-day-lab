@@ -1,0 +1,18 @@
+# Everything a deployment of this app can vary, in one file.
+# Compare: in Exercise 1 these values were scattered across your shell
+# history; in Exercise 2 they were spread over ten manifests.
+api:
+  image: taskboard-api:v1
+  replicaCount: 2
+
+gateway:
+  image: taskboard-gateway:v1
+
+postgres:
+  image: postgres:16-alpine
+  storage: 1Gi
+
+credentials:
+  user: taskboard
+  password: lab-only-password
+  database: taskboard

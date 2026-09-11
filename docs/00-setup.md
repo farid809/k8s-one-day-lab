@@ -9,6 +9,7 @@ Do this **before** the lab. If `minikube start` works on your machine, you're do
 | Docker Desktop | `brew install --cask docker` | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) |
 | minikube | `brew install minikube` | `winget install Kubernetes.minikube` |
 | kubectl | `brew install kubectl` | `winget install Kubernetes.kubectl` |
+| Helm (used in Exercise 4) | `brew install helm` | `winget install Helm.Helm` |
 
 > Linux: install Docker Engine from your distro, then minikube + kubectl per
 > [minikube.sigs.k8s.io/docs/start](https://minikube.sigs.k8s.io/docs/start/).
