@@ -1,0 +1,74 @@
+<mxGraphModel dx="2400" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="820" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <mxCell id="title" value="&lt;b&gt;Exercise 1 pains → Exercise 2 answers&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;every red box on the left is something YOU did by hand; every arrow lands on the Kubernetes object that absorbs it&lt;/span&gt;" style="text;html=1;fontSize=12;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="700" height="40" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="g-ex1" value="&lt;b&gt;Exercise 1 — you are the orchestrator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#07125E;strokeWidth=2;verticalAlign=top;spacingTop=5;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+      <mxGeometry x="40" y="80" width="480" height="640" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="p1" value="&lt;b&gt;⚡ #1 Startup order&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;api crashes if started before db; you sequence, you retry, you clean up corpses&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="40" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p2" value="&lt;b&gt;⚡ #2 Wiring in shell history&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;network create + volume create + 3× docker run + ~10 flags + plaintext password — documented nowhere&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="120" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p3" value="&lt;b&gt;⚡ #3 Nothing restarts anything&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;docker kill api → app down until a human notices and types docker start&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="200" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p4" value="&lt;b&gt;⚡ #4 Scaling = config surgery&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;second api container gets zero traffic; real scaling means editing nginx.conf + rebuilding the gateway image&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="280" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p5" value="&lt;b&gt;⚡ #5 State one flag from gone&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;forget -v taskboard-data:... once and the database starts empty&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="360" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p6" value="&lt;b&gt;⚡ Secrets on the command line&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;-e DB_PASSWORD=... in every run command and in your shell history&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="440" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p7" value="&lt;b&gt;⚡ No health model&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;&quot;running&quot; is all Docker knows; nothing distinguishes alive from ready-to-serve&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="520" width="440" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="g-ex2" value="&lt;b&gt;Exercise 2 — the cluster is the orchestrator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#07125E;strokeWidth=2;verticalAlign=top;spacingTop=5;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+      <mxGeometry x="820" y="80" width="480" height="640" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="k1" value="&lt;b&gt;restartPolicy + probes&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;crashed pods restart with backoff until they succeed; readiness gates traffic — order stops mattering&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="40" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k2" value="&lt;b&gt;Manifests (YAML in git)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;the entire desired state is 10 reviewable files; kubectl apply -f k8s/ recreates everything, anywhere&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="120" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k3" value="&lt;b&gt;Deployment&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;keeps N replicas running; delete a pod and a replacement exists before you can type get pods&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="200" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k4" value="&lt;b&gt;Service + kubectl scale&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;--replicas=5 and traffic spreads across all Ready pods; nginx.conf never changes&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="280" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k5" value="&lt;b&gt;PersistentVolumeClaim&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;storage is part of the declared state — a named claim, not a flag you must remember&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="360" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k6" value="&lt;b&gt;Secret / ConfigMap&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;credentials and config are objects referenced by name; deployments never contain the values&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="440" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k7" value="&lt;b&gt;Liveness vs readiness probes&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;alive-but-not-ready is a first-class state: pod gets no traffic instead of serving errors&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="520" width="440" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e1" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p1" target="k1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e2" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p2" target="k2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e3" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p3" target="k3"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e4" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p4" target="k4"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e5" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p5" target="k5"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e6" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p6" target="k6"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e7" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p7" target="k7"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&#10;🟥 pain you felt by hand in Exercise 1&#10;🟦 Kubernetes object/mechanism that absorbs it&#10;→ &quot;is answered by&quot;" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="40" y="740" width="330" height="70" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

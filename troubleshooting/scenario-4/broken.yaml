@@ -1,0 +1,15 @@
+# Scenario 4 — apply me, then figure out why this claim never binds.
+# (Standalone: does not break the running app.)
+#   kubectl apply -f troubleshooting/scenario-4/broken.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: reports-data
+  namespace: taskboard
+spec:
+  storageClassName: fast-ssd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,16 @@
+# Stable name "api" in front of however many API pods exist. The gateway's
+# nginx.conf proxies to http://api:8000 — the exact same line that worked on
+# the Docker network in Exercise 1. Scaling from 2 to 5 replicas changes
+# nothing here: the Service spreads requests across all Ready pods
+# (watch the "served by" hostname hop in the UI).
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: taskboard
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 8000
+      targetPort: 8000

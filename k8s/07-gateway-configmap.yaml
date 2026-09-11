@@ -1,0 +1,25 @@
+# The same nginx.conf that was baked into the gateway image in Exercise 1 —
+# now externalized as a ConfigMap and mounted over the baked-in copy.
+# Change routing? Edit this and restart the deployment. No image rebuild.
+# That is the ConfigMap lesson: configuration changes at a different speed
+# than code, so it gets a different home.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-config
+  namespace: taskboard
+data:
+  default.conf: |
+    server {
+        listen 80;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+
+        location /api/ {
+            proxy_pass http://api:8000/;
+            proxy_set_header Host $host;
+        }
+    }

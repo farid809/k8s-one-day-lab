@@ -1,0 +1,17 @@
+# PersistentVolumeClaim — the K8s version of the docker volume you created by
+# hand in Exercise 1. You claim "1Gi of disk that survives pod restarts";
+# the cluster figures out where it physically lives (on minikube: a hostPath
+# on the node, provisioned automatically by the default StorageClass named
+# "standard"). Your manifest stays the same on EKS/AKS/GKE — only the
+# StorageClass behind it changes.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  namespace: taskboard
+spec:
+  accessModes:
+    - ReadWriteOnce          # one node mounts it read-write — fine for a single DB pod
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,7 @@
+# A namespace is a folder for your cluster objects. Everything in this lab
+# lives in "taskboard" so one command can inspect it (kubectl get all -n taskboard)
+# and one command can erase it (kubectl delete ns taskboard).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: taskboard

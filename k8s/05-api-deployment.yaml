@@ -1,0 +1,62 @@
+# The API tier — where most Deployment concepts live:
+#   replicas: 2        -> two identical pods; the Service load-balances them
+#   livenessProbe      -> "is the process alive?" — fails => container restarted
+#   readinessProbe     -> "can it serve (DB reachable)?" — fails => no traffic sent
+#   resources          -> scheduler places pods by requests; limits cap usage
+#
+# imagePullPolicy: Never — the image was built locally and loaded with
+# `minikube image load taskboard-api:v1`; there is no registry in this lab.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: taskboard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: taskboard-api:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              value: db                    # the Service name — cluster DNS resolves it
+            - name: DB_NAME
+              value: taskboard
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              memory: 256Mi

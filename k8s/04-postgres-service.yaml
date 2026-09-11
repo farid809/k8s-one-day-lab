@@ -1,0 +1,15 @@
+# A Service gives pods a stable DNS name. Pods come and go with random names
+# and IPs; "db" always resolves and always routes to whatever pod currently
+# matches the selector. This replaces the Docker network + container-name
+# trick from Exercise 1 — and it's why the API's DB_HOST can just be "db".
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: taskboard
+spec:
+  selector:
+    app: postgres        # must match the pod labels in the Deployment
+  ports:
+    - port: 5432
+      targetPort: 5432

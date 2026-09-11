@@ -1,0 +1,67 @@
+# The database pod. A Deployment keeps exactly `replicas` copies running:
+# kill the pod and the ReplicaSet recreates it — the manual restart you did
+# in Exercise 1, automated. Data survives because it lives in the PVC, not
+# in the container.
+#
+# (Real-world note: databases usually get a StatefulSet — stable identity,
+# ordered startup. One replica + PVC in a Deployment is fine for this lab
+# and keeps the concept count down.)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: taskboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres            # Services find pods by these labels — nothing else
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: postgres-credentials   # POSTGRES_USER/PASSWORD/DB, from the Secret
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: seed
+              mountPath: /docker-entrypoint-initdb.d   # runs init.sql on first boot
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "taskboard"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgres-data
+        - name: seed
+          configMap:
+            name: postgres-seed
+---
+# The seed SQL, shipped as a ConfigMap so the lab needs no custom DB image.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-seed
+  namespace: taskboard
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS tasks (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        done BOOLEAN NOT NULL DEFAULT FALSE
+    );
+    INSERT INTO tasks (title, done) VALUES
+        ('Finish Exercise 1 — containers by hand', true),
+        ('Feel the pain', true),
+        ('Finish Exercise 2 — the Kubernetes way', false),
+        ('Break things on purpose in Exercise 3', false);

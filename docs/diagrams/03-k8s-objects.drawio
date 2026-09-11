@@ -1,0 +1,80 @@
+<mxGraphModel dx="2200" dy="1300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1250" pageHeight="900" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <mxCell id="title" value="&lt;b&gt;Task Board on Kubernetes — every object in k8s/ and how they connect&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;solid = request path · dashed green = referenced config/credentials · numbers = manifest file&lt;/span&gt;" style="text;html=1;fontSize=12;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="700" height="40" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="browser" value="&lt;b&gt;Browser&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;minikube service gateway -n taskboard&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=9;arcSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="70" width="220" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="g-ns" value="&lt;b&gt;minikube node · Namespace: taskboard (00)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#07125E;strokeWidth=2;verticalAlign=top;spacingTop=5;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+      <mxGeometry x="60" y="150" width="1120" height="700" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="svc-gw" value="&lt;b&gt;Service: gateway (09)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;type: NodePort — the only door to the outside&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="40" width="280" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="pod-gw" value="&lt;b&gt;Pod: gateway&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;taskboard-gateway:v1 · Deployment ×1 (08)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="130" width="280" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="cm-gw" value="&lt;b&gt;ConfigMap: gateway-config (07)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;nginx.conf — mounted over the baked-in copy&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="800" y="130" width="270" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="svc-api" value="&lt;b&gt;Service: api (06)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;ClusterIP — DNS name &quot;api&quot;, spreads traffic over Ready pods&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="230" width="280" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="pod-api1" value="&lt;b&gt;Pod: api-…a&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;taskboard-api:v1&lt;br&gt;liveness /healthz · readiness /readyz&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="300" y="330" width="240" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="pod-api2" value="&lt;b&gt;Pod: api-…b&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;identical replica — Deployment ×2 (05)&lt;br&gt;kubectl scale changes only this count&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="580" y="330" width="240" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="svc-db" value="&lt;b&gt;Service: db (04)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;ClusterIP — stable name for whatever postgres pod exists&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="440" width="280" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="pod-db" value="&lt;b&gt;Pod: postgres&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;postgres:16-alpine · Deployment ×1 (03)&lt;br&gt;readiness: pg_isready&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="530" width="280" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="pvc" value="&lt;b&gt;PVC: postgres-data (02)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;1Gi ReadWriteOnce · provisioned by StorageClass &quot;standard&quot;&lt;br&gt;outlives every pod above&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="420" y="620" width="280" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="secret" value="&lt;b&gt;Secret: postgres-credentials (01)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;POSTGRES_USER / PASSWORD / DB&lt;br&gt;referenced by name from api + postgres&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="60" y="440" width="200" height="70" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="cm-seed" value="&lt;b&gt;ConfigMap: postgres-seed (03)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;init.sql — mounted into /docker-entrypoint-initdb.d&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=9;arcSize=10;" vertex="1" parent="g-ns">
+      <mxGeometry x="800" y="530" width="270" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e-b-svc" value="NodePort" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#333;" edge="1" parent="1" source="browser" target="svc-gw"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-svc-gw" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="g-ns" source="svc-gw" target="pod-gw"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-gw-svcapi" value="http://api:8000" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#333;" edge="1" parent="g-ns" source="pod-gw" target="svc-api"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-svcapi-1" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="g-ns" source="svc-api" target="pod-api1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-svcapi-2" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="g-ns" source="svc-api" target="pod-api2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-api1-db" value="db:5432" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#333;" edge="1" parent="g-ns" source="pod-api1" target="svc-db"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-api2-db" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="g-ns" source="pod-api2" target="svc-db"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-svcdb-pod" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="g-ns" source="svc-db" target="pod-db"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-db-pvc" value="mounts" style="strokeColor=#2E7D32;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#2E7D32;" edge="1" parent="g-ns" source="pod-db" target="pvc"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="e-cm-gw" style="strokeColor=#2E7D32;strokeWidth=1;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;" edge="1" parent="g-ns" source="cm-gw" target="pod-gw"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-sec-api" style="strokeColor=#2E7D32;strokeWidth=1;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;" edge="1" parent="g-ns" source="secret" target="pod-api1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-sec-db" style="strokeColor=#2E7D32;strokeWidth=1;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;" edge="1" parent="g-ns" source="secret" target="pod-db"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e-seed-db" style="strokeColor=#2E7D32;strokeWidth=1;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;" edge="1" parent="g-ns" source="cm-seed" target="pod-db"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&#10;🟦 Service — stable name + load balancing&#10;⬜ Pod — disposable running container (managed by a Deployment)&#10;🟩 config / credentials / storage — outlive the pods&#10;→ solid: request path · ⇢ dashed: referenced by name&#10;(NN) = file in k8s/" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="g-ns">
+      <mxGeometry x="60" y="580" width="300" height="100" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

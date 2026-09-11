@@ -1,0 +1,19 @@
+# The one Service exposed OUTSIDE the cluster. type: NodePort opens a port
+# on the node itself (minikube VM) and forwards it to the gateway pods.
+# `minikube service gateway -n taskboard` prints/opens the reachable URL.
+#
+# db and api stay ClusterIP (the default) — internal only. Compare Exercise 1,
+# where -p flags were your only tool and every exposed port was a decision
+# made at `docker run` time on the host.
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: taskboard
+spec:
+  type: NodePort
+  selector:
+    app: gateway
+  ports:
+    - port: 80
+      targetPort: 80

@@ -1,0 +1,13 @@
+# Scenario 3 — apply me, then figure out why the UI shows a 502.
+#   kubectl apply -f troubleshooting/scenario-3/broken.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: taskboard
+spec:
+  selector:
+    app: apii
+  ports:
+    - port: 8000
+      targetPort: 8000
