@@ -1,14 +1,16 @@
 # Kubernetes in One Day
 
-A hands-on lab that takes a developer from "I've heard of containers" to
-running, scaling, and troubleshooting a real three-tier app on Kubernetes —
-in one working day.
+A one-day hands-on lab covering container and Kubernetes fundamentals.
+Participants containerize and run a three-tier web application with Docker,
+convert it to Kubernetes (minikube) using Deployments, Services, and
+persistent storage, and practice diagnosing and fixing common failures.
 
-**The premise:** you can't appreciate Kubernetes until you've been the
-orchestrator yourself. So first you run the app with raw `docker` commands
-and hit five specific pains, by design. Then you run the *same app, same
-images* on Kubernetes and watch each pain get absorbed by a named object.
-Then you break it five ways and learn the diagnosis loop.
+The lab is structured as a before/after comparison: Exercise 1 runs the
+application with Docker commands alone, surfacing the operational
+limitations of manual container management; Exercise 2 deploys the same
+application and images on Kubernetes, mapping each limitation to the
+Kubernetes object that addresses it; Exercise 3 covers troubleshooting
+through five guided failure scenarios.
 
 ## The app
 
@@ -22,7 +24,7 @@ Full tour in [docs/01-the-app.md](docs/01-the-app.md).
 |------|-------|-----|
 | before the day | Setup (~30 min, on your own) | [docs/00-setup.md](docs/00-setup.md) |
 | 09:00 – 09:20 | The app — code walkthrough | [docs/01-the-app.md](docs/01-the-app.md) |
-| 09:20 – 11:20 | **Exercise 1** — containers by hand (feel the pain) | [docs/02-exercise-1-containers.md](docs/02-exercise-1-containers.md) |
+| 09:20 – 11:20 | **Exercise 1** — running the app with Docker | [docs/02-exercise-1-containers.md](docs/02-exercise-1-containers.md) |
 | 11:30 – 14:30 | **Exercise 2** — the Kubernetes way (minikube, Deployments, Services, PVC) | [docs/03-exercise-2-kubernetes.md](docs/03-exercise-2-kubernetes.md) |
 | 14:45 – 16:15 | **Exercise 3** — troubleshooting five real failures | [docs/04-exercise-3-troubleshooting.md](docs/04-exercise-3-troubleshooting.md) |
 | 16:15 – 16:30 | Wrap-up discussion | (end of exercise 3) |
