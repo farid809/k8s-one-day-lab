@@ -1,0 +1,65 @@
+<mxGraphModel dx="2400" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1480" pageHeight="1150" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <mxCell id="title" value="&lt;b&gt;The abstraction stack — containers to fleet management&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;each layer builds on the one below: what it ADDS, what it KEEPS unchanged, what it HIDES so you stop dealing with it&lt;/span&gt;" style="text;html=1;fontSize=12;align=left;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="700" height="40" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="axis" value="higher abstraction, less operational toil →" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;horizontal=0;" vertex="1" parent="1">
+      <mxGeometry x="30" y="120" width="40" height="880" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="plate5" value="&lt;b&gt;Rafay&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;fleet management — many clusters, one control point&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#64B5F6;strokeColor=#07125E;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="140" y="100" width="640" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="plate4" value="&lt;b&gt;EKS (managed Kubernetes)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;the cluster itself as a cloud service&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#07125E;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="140" y="290" width="640" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="plate3" value="&lt;b&gt;Helm&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;the whole app as one installable, upgradable package&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#07125E;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="140" y="480" width="640" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="plate2" value="&lt;b&gt;Kubernetes&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;many containers, orchestrated declaratively&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#07125E;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="140" y="670" width="640" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="plate1" value="&lt;b&gt;Containers (Docker)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;one process, packaged and isolated&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#07125E;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="140" y="860" width="640" height="140" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="note5" value="&lt;b&gt;Rafay&lt;/b&gt;&#10;ADDS: one console and access model for the whole fleet — cluster blueprints, policy, GitOps pipelines, drift detection&#10;KEEPS: your EKS/K8s clusters and workloads exactly as they are&#10;HIDES: per-cluster, one-at-a-time operations — kubeconfig sprawl, repeating upgrades and policy per cluster" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="880" y="95" width="540" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="note4" value="&lt;b&gt;EKS&lt;/b&gt;&#10;ADDS: managed, highly-available control plane; node groups + autoscaling; cloud wiring (IAM, load balancers, EBS-backed StorageClasses)&#10;KEEPS: the Kubernetes API — the same kubectl, manifests, and charts work unchanged&#10;HIDES: running etcd and control-plane servers, patching and upgrading the cluster machinery" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="880" y="285" width="540" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="note3" value="&lt;b&gt;Helm&lt;/b&gt;&#10;ADDS: the app as one versioned chart; per-environment values; release lifecycle — install, upgrade, rollback, uninstall&#10;KEEPS: the same Kubernetes objects — templates render to the plain manifests underneath&#10;HIDES: repetitive per-environment YAML editing and the apply-file-by-file routine" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="880" y="475" width="540" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="note2" value="&lt;b&gt;Kubernetes&lt;/b&gt;&#10;ADDS: scheduling, self-healing, scaling, service discovery/DNS, declarative desired state, probes, persistent volumes&#10;KEEPS: the same container images you built with Docker&#10;HIDES: manual run/stop/wire commands, restart duty, and which machine a container lands on" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="880" y="665" width="540" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="note1" value="&lt;b&gt;Containers&lt;/b&gt;&#10;ADDS: immutable images, isolated runtime, runs the same on any machine&#10;KEEPS: your application code and dependencies, unchanged&#10;HIDES: host OS differences and dependency installs — the end of &quot;works on my machine&quot;" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="880" y="855" width="540" height="150" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="ln5" style="strokeColor=#888;strokeWidth=1;dashed=1;endArrow=none;html=1;" edge="1" parent="1" source="plate5" target="note5"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="ln4" style="strokeColor=#888;strokeWidth=1;dashed=1;endArrow=none;html=1;" edge="1" parent="1" source="plate4" target="note4"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="ln3" style="strokeColor=#888;strokeWidth=1;dashed=1;endArrow=none;html=1;" edge="1" parent="1" source="plate3" target="note3"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="ln2" style="strokeColor=#888;strokeWidth=1;dashed=1;endArrow=none;html=1;" edge="1" parent="1" source="plate2" target="note2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="ln1" style="strokeColor=#888;strokeWidth=1;dashed=1;endArrow=none;html=1;" edge="1" parent="1" source="plate1" target="note1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="up4" value="builds on" style="strokeColor=#1565C0;strokeWidth=2;endArrow=block;endFill=1;html=1;fontSize=8;fontColor=#1565C0;" edge="1" parent="1" source="plate4" target="plate5"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="up3" style="strokeColor=#1565C0;strokeWidth=2;endArrow=block;endFill=1;html=1;" edge="1" parent="1" source="plate3" target="plate4"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="up2" style="strokeColor=#1565C0;strokeWidth=2;endArrow=block;endFill=1;html=1;" edge="1" parent="1" source="plate2" target="plate3"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="up1" style="strokeColor=#1565C0;strokeWidth=2;endArrow=block;endFill=1;html=1;" edge="1" parent="1" source="plate1" target="plate2"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="labnote" value="&lt;b&gt;Where today's lab sits&lt;/b&gt;&#10;Exercises 1-4 covered the bottom three layers. EKS and Rafay are the same ideas continued: someone else runs the cluster, then someone runs ALL the clusters." style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#FFF8E1;strokeColor=#EA9D00;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="140" y="1040" width="400" height="80" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&#10;darker shade = higher abstraction level&#10;↑ arrow = &quot;builds on the layer below&quot;&#10;each layer KEEPS the layer below intact — nothing is replaced, only wrapped" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
+      <mxGeometry x="580" y="1040" width="400" height="80" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

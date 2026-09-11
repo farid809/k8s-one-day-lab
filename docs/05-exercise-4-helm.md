@@ -75,6 +75,13 @@ Remove it: `helm uninstall taskboard-stg -n taskboard-stg && kubectl delete ns t
 In practice teams consume most third-party software as charts
 (`helm install prometheus …`) and package their own apps the same way.
 
+And the stack keeps going above today's lab — a managed service like EKS
+runs the cluster for you, and a fleet platform like Rafay manages many
+clusters at once. Same pattern at every level: each layer keeps the one
+below intact, adds a capability, and hides a category of toil.
+
+![The abstraction stack from containers to fleet management](diagrams/04-abstraction-layers.png)
+
 ## Wrap-up
 
 Three questions to close the day:
