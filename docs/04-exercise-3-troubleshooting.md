@@ -1,4 +1,4 @@
-# 4 · Exercise 3 — Troubleshooting (~1.25 h)
+# 4 · Exercise 3 — Troubleshooting (~1 h)
 
 **Goal:** learn the diagnosis loop by fixing five real failures. Each scenario
 in `troubleshooting/` breaks your running app in a different way; your job is

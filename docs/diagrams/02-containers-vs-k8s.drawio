@@ -1,4 +1,4 @@
-<mxGraphModel dx="2400" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="820" math="0" shadow="0">
+<mxGraphModel dx="2400" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="980" math="0" shadow="0">
   <root>
     <mxCell id="0"/>
     <mxCell id="1" parent="0"/>
@@ -8,7 +8,7 @@
     </mxCell>
 
     <mxCell id="g-ex1" value="&lt;b&gt;Exercise 1 — you are the orchestrator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#07125E;strokeWidth=2;verticalAlign=top;spacingTop=5;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
-      <mxGeometry x="40" y="80" width="480" height="640" as="geometry"/>
+      <mxGeometry x="40" y="80" width="480" height="800" as="geometry"/>
     </mxCell>
 
     <mxCell id="p1" value="&lt;b&gt;#1 Startup order&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;api crashes if started before db; you sequence, you retry, you clean up corpses&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
@@ -33,8 +33,14 @@
       <mxGeometry x="20" y="520" width="440" height="60" as="geometry"/>
     </mxCell>
 
+    <mxCell id="p8" value="&lt;b&gt;#6 Every update means downtime&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;replacing a container is stop-then-start; users see errors in the gap; rollback is the same manual dance&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="600" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="p9" value="&lt;b&gt;#7 Second environment = do it all again&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;no &quot;copy of the app&quot; concept — every command repeated with new names, plus config edits&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#DD344C;fontSize=9;arcSize=10;" vertex="1" parent="g-ex1">
+      <mxGeometry x="20" y="680" width="440" height="60" as="geometry"/>
+    </mxCell>
     <mxCell id="g-ex2" value="&lt;b&gt;Exercise 2 — the cluster is the orchestrator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#07125E;strokeWidth=2;verticalAlign=top;spacingTop=5;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
-      <mxGeometry x="820" y="80" width="480" height="640" as="geometry"/>
+      <mxGeometry x="820" y="80" width="480" height="800" as="geometry"/>
     </mxCell>
 
     <mxCell id="k1" value="&lt;b&gt;restartPolicy + probes&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;crashed pods restart with backoff until they succeed; readiness gates traffic — order stops mattering&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
@@ -59,6 +65,12 @@
       <mxGeometry x="20" y="520" width="440" height="60" as="geometry"/>
     </mxCell>
 
+    <mxCell id="k8" value="&lt;b&gt;Rolling updates (Deployment)&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;new pods start and pass readiness before old ones stop; kubectl rollout undo is the rollback&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="600" width="440" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="k9" value="&lt;b&gt;Namespace&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:8px'&gt;same manifests applied to another namespace = a full isolated copy of the app&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;arcSize=10;" vertex="1" parent="g-ex2">
+      <mxGeometry x="20" y="680" width="440" height="60" as="geometry"/>
+    </mxCell>
     <mxCell id="e1" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p1" target="k1"><mxGeometry relative="1" as="geometry"/></mxCell>
     <mxCell id="e2" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p2" target="k2"><mxGeometry relative="1" as="geometry"/></mxCell>
     <mxCell id="e3" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p3" target="k3"><mxGeometry relative="1" as="geometry"/></mxCell>
@@ -67,8 +79,10 @@
     <mxCell id="e6" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p6" target="k6"><mxGeometry relative="1" as="geometry"/></mxCell>
     <mxCell id="e7" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p7" target="k7"><mxGeometry relative="1" as="geometry"/></mxCell>
 
+    <mxCell id="e8" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p8" target="k8"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e9" style="strokeColor=#333;strokeWidth=2;endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" edge="1" parent="1" source="p9" target="k9"><mxGeometry relative="1" as="geometry"/></mxCell>
     <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&#10;🟥 limitation of manual container management (Exercise 1)&#10;🟦 Kubernetes object/mechanism that absorbs it&#10;→ &quot;is answered by&quot;" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#F5F5F5;strokeColor=#546E7A;rounded=1;whiteSpace=wrap;fontColor=#232F3E;spacingLeft=8;spacingTop=5;" vertex="1" parent="1">
-      <mxGeometry x="40" y="740" width="330" height="70" as="geometry"/>
+      <mxGeometry x="40" y="900" width="330" height="70" as="geometry"/>
     </mxCell>
   </root>
 </mxGraphModel>

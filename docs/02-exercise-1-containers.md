@@ -1,4 +1,4 @@
-# 2 · Exercise 1 — Containers by hand (~3 h)
+# 2 · Exercise 1 — Containers by hand (~1.5 h)
 
 **Goal:** run the whole app with nothing but `docker` commands, and note
 exactly where that approach stops scaling. Each limitation you encounter here
@@ -165,42 +165,18 @@ under pressure.
 > stop-then-start. Zero-downtime deploys and instant rollbacks are an
 > infrastructure project you'd have to build yourself.
 
-**Stand up a second environment** (QA asks for a staging copy):
+**A second environment?** (thought experiment, no typing needed):
 
-Everything you built is named and wired by hand — so a second copy means
-doing all of it again with different names and ports, carefully:
-
-```bash
-docker network create taskboard-net-stg
-docker volume create taskboard-data-stg
-docker run -d --name db-stg --network taskboard-net-stg \
-  -e POSTGRES_USER=taskboard -e POSTGRES_PASSWORD=lab-only-password -e POSTGRES_DB=taskboard \
-  -v taskboard-data-stg:/var/lib/postgresql/data \
-  -v "$(pwd)/app/db/init.sql":/docker-entrypoint-initdb.d/init.sql:ro \
-  postgres:16-alpine
-docker run -d --name api-stg --network taskboard-net-stg \
-  -e DB_HOST=db-stg -e DB_USER=taskboard -e DB_PASSWORD=lab-only-password \
-  taskboard-api:v1
-```
-
-Stop here — the gateway can't even join without a config edit: its nginx.conf
-proxies to `api`, but this network's container is `api-stg`. So a staging
-environment needs a *different gateway image* (or a rebuilt config), plus a
-different published port, plus this whole command sequence — and drift between
-the two copies starts the moment you create them.
-
-Tear the half-built staging copy down:
-
-```bash
-docker rm -f db-stg api-stg
-docker network rm taskboard-net-stg
-docker volume rm taskboard-data-stg
-```
+Say QA asks for a staging copy. Everything you built is named and wired by
+hand, so a second copy means repeating every command with `-stg` names, a
+different port — and the gateway can't even join as-is, because its
+nginx.conf proxies to `api`, not `api-stg`. That's a config edit and an
+image rebuild, for a *copy*. And the two copies start drifting the moment
+they exist.
 
 > **Limitation #7 — a second environment means doing everything again.**
 > There is no "copy of the whole app" concept — only individual containers
-> you recreate by hand, with names and configs adjusted everywhere they're
-> referenced.
+> recreated by hand, with names adjusted everywhere they're referenced.
 
 ## 2.5 Summary: what manual orchestration costs
 

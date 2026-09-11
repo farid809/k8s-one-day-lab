@@ -1,8 +1,8 @@
 # 5 · Exercise 4 — Helm (~30 min)
 
-**Goal:** deploy the entire application — everything Exercise 2 built over
-two hours — with one command. This exercise is short on purpose: the length
-of each exercise today has tracked how much work the tooling does for you.
+**Goal:** deploy the entire application — everything Exercise 2 built —
+with one command. This one is short on purpose: Helm's job is to make
+exactly this fast.
 
 ## 5.1 What Helm adds
 
@@ -75,7 +75,7 @@ Remove it: `helm uninstall taskboard-stg -n taskboard-stg && kubectl delete ns t
 In practice teams consume most third-party software as charts
 (`helm install prometheus …`) and package their own apps the same way.
 
-## Wrap-up (whole group, ~15 min)
+## Wrap-up
 
 Three questions to close the day:
 

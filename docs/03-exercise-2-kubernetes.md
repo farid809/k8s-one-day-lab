@@ -1,8 +1,8 @@
 # 3 · Exercise 2 — The Kubernetes way (~2 h)
 
-Notice the clock: everything Exercise 1 did in three hours, plus healing,
-scaling, zero-downtime restarts, and reviewable config, fits in two — because
-the platform does the orchestration work.
+Two hours, but note where they go: the actual deploying is a few minutes of
+`kubectl apply`. The rest is reading the manifests and understanding the
+objects — which is the point of the exercise.
 
 **Goal:** run the exact same app on Kubernetes — same images, same nginx.conf,
 same env vars — and see how the platform addresses each Exercise 1 limitation.
@@ -30,6 +30,8 @@ Each limitation maps to a named Kubernetes answer:
 | #7 second environment = rebuild everything | same manifests, applied to another namespace | **Namespace** |
 | (passwords in plain sight) | referenced by name, never inline | **Secret**, **ConfigMap** |
 
+![Exercise 1 limitations mapped to Exercise 2 answers](diagrams/02-containers-vs-k8s.png)
+
 The vocabulary you need today — five words:
 
 - **Pod** — smallest deployable unit; one running instance of a container (≈ what `docker run` gave you). Disposable, gets a random name and IP.
@@ -38,24 +40,9 @@ The vocabulary you need today — five words:
 - **PersistentVolumeClaim (PVC)** — a named claim on storage that outlives pods.
 - **ConfigMap / Secret** — config and credentials as objects, referenced by name.
 
-```mermaid
-flowchart TB
-    subgraph cluster["minikube · namespace: taskboard"]
-        GS[Service gateway<br/>NodePort :80] --> GP[Pod gateway]
-        GP -->|"http://api:8000"| AS[Service api]
-        AS --> A1[Pod api-1] & A2[Pod api-2]
-        A1 & A2 -->|"db:5432"| DS[Service db]
-        DS --> DP[Pod postgres]
-        DP --- PVC[/PVC postgres-data 1Gi/]
-        CM[ConfigMap<br/>gateway-config] -.-> GP
-        SEC[Secret<br/>postgres-credentials] -.-> DP
-        SEC -.-> A1 & A2
-    end
-    B([Browser]) --> GS
-```
+![Every Kubernetes object in k8s/ and how they connect](diagrams/03-k8s-objects.png)
 
-> Prettier versions: `docs/diagrams/02-containers-vs-k8s.drawio` (the before/after)
-> and `docs/diagrams/03-k8s-objects.drawio` (this map).
+> Sources: `docs/diagrams/*.drawio` (editable in draw.io)
 
 ## 3.2 Start the cluster, load the images
 

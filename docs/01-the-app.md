@@ -3,16 +3,9 @@
 Everything in this lab happens to one small app: a **Task Board**. Three
 components, the same three-tier shape as most systems you work on:
 
-```mermaid
-flowchart LR
-    B([Browser]) -->|":80"| G[Gateway<br/>nginx]
-    G -->|"/api/* → :8000"| A[API<br/>FastAPI]
-    G -->|"/ → static UI"| B
-    A -->|":5432"| D[(PostgreSQL)]
-    D --- V[/"data volume"/]
-```
+![Application architecture](diagrams/01-app-architecture.png)
 
-> Prettier version: `docs/diagrams/01-app-architecture.drawio`
+> Source: `docs/diagrams/01-app-architecture.drawio` (editable in draw.io)
 
 | Component | What it is | Why it's in the lab |
 |-----------|-----------|---------------------|
