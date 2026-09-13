@@ -1,4 +1,11 @@
-# Build spec — isometric abstraction stack (for Isoflow / Stackdraft)
+# Build spec — isometric abstraction stack
+
+> **Status: built.** `04-abstraction-layers.png` was generated from
+> `04-abstraction-layers.fossflow.json` (FossFLOW/Isoflow format). To edit:
+> run FossFLOW locally (`orb start && docker start fossflow`, then
+> http://localhost:3400), click the ☰ menu → Open, and select the .json —
+> then re-export/screenshot over the PNG. The spec below describes the
+> diagram's content.
 
 Five isometric floors stacked bottom-to-top, exploded vertically. Each floor
 carries small 3D blocks for the components that layer brings. Color ramp:
